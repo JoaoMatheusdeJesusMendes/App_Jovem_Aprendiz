@@ -181,13 +181,6 @@ export default function App() {
 
 
 const styles = StyleSheet.create({
-  title: {
-    fontSize: 40,
-    textAlign: 'center',
-    alignSelf: 'center',
-    marginTop: 50,
-    fontWeight: 'bold',
-  },
   loginAreas: {
     alignItems: 'center',
   },
