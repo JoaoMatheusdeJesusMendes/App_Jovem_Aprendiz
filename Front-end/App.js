@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TextInput, Image, TouchableOpacity, ScrollView, Modal} from 'react-native';
 import React, {useState} from 'react';
-import icon from "./imgs/icon.png";
+import icon from "./assets/iconLogo.png";
 
 const CustomSelect = ({ options, selectedOption, onSelect }) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -119,7 +119,7 @@ export default function App() {
     setHabilidadeOption(option);
   };
   return (
-    <ScrollView>
+    <View>
     <View>
       <Image
       style={styles.imgStyleRegister}
@@ -175,7 +175,7 @@ export default function App() {
       style={styles.buttonFormat}
       ><Text style={styles.textButton}>Avaliar</Text></TouchableOpacity>
     </View>
-  </ScrollView>
+  </View>
   );
 }
 
@@ -191,7 +191,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     borderRadius: 30, 
     paddingTop: 11,
-    marginTop: 60,
+    marginTop: 40,
     marginBottom: 10,
   },
   textButton: {
@@ -202,10 +202,10 @@ const styles = StyleSheet.create({
   },
   imgStyleRegister: {
     width: 220, 
-    height: 160, 
+    height: 165, 
     alignSelf: 'center',
     marginBottom: 10,
-    marginTop: 60,
+    marginTop: 20,
   },
   titleTextsRegister: {
     alignSelf: 'flex-start',
