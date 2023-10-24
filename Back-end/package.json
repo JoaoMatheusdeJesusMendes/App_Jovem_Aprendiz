@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "mongodb": "^6.2.0",
+    "moongose": "^1.0.0"
+  },
+  "scripts": {
+    "dev": "nodemon App.js"
+  }
+}
