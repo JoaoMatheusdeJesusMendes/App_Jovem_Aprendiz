@@ -9,7 +9,7 @@ const User = require("../models/User");
 // @access  public
 // @params  name*, email*, password*, confirmpassword*
 const registerUser = async (req, res) => {
-    const { name, email, password, confirmpassword, type } = req.body;
+    const { name, email, password, cpf, birthDate, confirmpassword, type } = req.body;
 
     // Validations
     if (!type) {
@@ -20,6 +20,18 @@ const registerUser = async (req, res) => {
     }
     if (!email) {
         return res.status(422).json({ msg: "O email é obrigatório!" });
+    }
+
+    if(!birthDate)
+    {
+        return res.status(422).json({ msg: "A data de nascimento é obrigatória!" });
+    }
+   
+
+
+    if(!cpf)
+    {
+        return res.status(422).json({ msg: "O cpf é obrigatório!" });
     }
     if (!password) {
         return res.status(422).json({ msg: "A senha é obrigatória!" });
@@ -40,11 +52,13 @@ const registerUser = async (req, res) => {
 
     // create user
     const NewUser = new User({
-            type,
-            name,
-            email,
-            password: passwordHash,
-        });
+        type,
+        name,
+        cpf,
+        birthDate, // Use a data formatada
+        email,
+        password: passwordHash,
+    });
 
     try {
         await NewUser.save(); // Salva o objeto no banco
@@ -161,3 +175,4 @@ module.exports = {
     loginUser,
     authenticateUser,
 };
+
