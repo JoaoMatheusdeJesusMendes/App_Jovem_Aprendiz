@@ -39,6 +39,16 @@ const getYoungApprenticeById = async (req, res) => {
 const registerYoungApprentice = async (req, res) => {
   try {
     const youngApprenticeData = req.body;
+
+    // Verifica se todos os campos obrigatórios estão presentes no corpo da solicitação
+    const requiredFields = ['class', 'name', 'role', 'instructor', 'city', 'cnpj', 'phone', 'birthDate', 'admission', 'end', 'contractPeriod', 'cpf', 'rg', 'practiceHours', 'theoreticalHours', 'model', 'active', 'contractExpiration'];
+    const missingFields = requiredFields.filter(field => !youngApprenticeData[field]);
+
+    if (missingFields.length > 0) {
+        return res.status(422).json({ msg: `Campos obrigatórios ausentes: ${missingFields.join(', ')}` });
+    }
+
+    // Restante do código
     const newYoungApprentice = new YoungApprentice(youngApprenticeData);
     const savedYoungApprentice = await newYoungApprentice.save();
 
@@ -48,6 +58,7 @@ const registerYoungApprentice = async (req, res) => {
   }
 };
 
+
 const updateYoungApprentice = async (req, res) => {
   const id = req.params.id;
 
@@ -56,9 +67,19 @@ const updateYoungApprentice = async (req, res) => {
       throw new Error('Parâmetros incorretos');
     }
 
+    const updatedFields = req.body;
+
+    // Verifica se os campos opcionais estão presentes no corpo da solicitação
+    const optionalFields = ['attendance', 'participation', 'interpersonalRelationships', 'goalAchievement', 'technicalSkills'];
+    const missingOptionalFields = optionalFields.filter(field => updatedFields[field] === undefined);
+
+    if (missingOptionalFields.length > 0) {
+      return res.status(422).json({ msg: `Campos opcionais ausentes: ${missingOptionalFields.join(', ')}` });
+    }
+
     const updatedYoungApprentice = await YoungApprentice.findByIdAndUpdate(
       id,
-      { $set: req.body },
+      { $set: updatedFields },
       { new: true }
     );
 
