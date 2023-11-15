@@ -1,12 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
-
+import * as Font from 'expo-font';
 export default function MainPage({ navigation }) {
   const openMenu = () => {
     // Abre o menu ou inicia a navegação para a tela do menu
     // Você precisa configurar sua navegação por abas adequadamente para isso funcionar
     // Exemplo: navigation.navigate('Menu')
   };
+  useEffect(() => {
+    // Carrega a fonte Inter
+    Font.loadAsync({
+      'Inter': require('./assets/fonts/Inter.ttf'), // Substitua pelo caminho real do arquivo da fonte Inter
+    });
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -17,7 +23,7 @@ export default function MainPage({ navigation }) {
         </TouchableOpacity>
         <View style={styles.ellipseContainer}>
           <View style={styles.ellipse}></View>
-          <Text style={styles.title}>Cadastrados</Text>
+          <Text style={styles.title}>Jovens Aprendizes Cadastrados</Text>
           <View style={styles.ellipse}></View>
         </View>
       </View>
@@ -25,6 +31,7 @@ export default function MainPage({ navigation }) {
       {/* Conteúdo da página */}
       <View style={styles.logoContainer}>
         <Image source={require('./assets/LogoIcon.png')} style={styles.logoImage} />
+        <Text style={styles.logoText}>Jovens Aprendizes Cadastrados</Text>
       </View>
     </View>
   );
@@ -49,7 +56,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '400',
     letterSpacing: 0,
-    textAlign: 'center',
+    textAlign: 'left',
     color: 'white', // Cor do texto
     marginLeft: 15, // Espaçamento à esquerda
     marginRight: 15, // Espaçamento à direita
@@ -81,5 +88,11 @@ const styles = StyleSheet.create({
     width: 110,
     height: 110,
     resizeMode: 'contain', // Ajusta o conteúdo da imagem para caber no contêiner
+  },
+  logoText: {
+    marginTop: 10,
+    fontFamily: 'Inter',
+    fontSize: 16,
+    color: '#333333',
   },
 });
