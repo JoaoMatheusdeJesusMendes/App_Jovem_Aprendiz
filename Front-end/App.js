@@ -23,7 +23,7 @@ export default function MainPage({ navigation }) {
         </TouchableOpacity>
         <View style={styles.ellipseContainer}>
           <View style={styles.ellipse}></View>
-          <Text style={styles.title}>Jovens Aprendizes Cadastrados</Text>
+          <Text style={styles.title}>Cadastrados</Text>
           <View style={styles.ellipse}></View>
         </View>
       </View>
