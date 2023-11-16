@@ -1,18 +1,30 @@
 import React, { useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import * as Font from 'expo-font';
+
 export default function MainPage({ navigation }) {
   const openMenu = () => {
     // Abre o menu ou inicia a navegação para a tela do menu
     // Você precisa configurar sua navegação por abas adequadamente para isso funcionar
     // Exemplo: navigation.navigate('Menu')
   };
+
   useEffect(() => {
     // Carrega a fonte Inter
     Font.loadAsync({
       'Inter': require('./assets/fonts/Inter.ttf'), // Substitua pelo caminho real do arquivo da fonte Inter
     });
   }, []);
+
+  const navigateToDesempenho = () => {
+    // Adicione aqui a lógica para navegar para a tela de Desempenho
+    // Exemplo: navigation.navigate('Desempenho')
+  };
+
+  const onPressNovoBotao = () => {
+    // Adicione aqui a lógica para o novo botão
+    console.log('Botão Novo Pressionado!');
+  };
 
   return (
     <View style={styles.container}>
@@ -23,16 +35,21 @@ export default function MainPage({ navigation }) {
         </TouchableOpacity>
         <View style={styles.ellipseContainer}>
           <View style={styles.ellipse}></View>
-          <Text style={styles.title}>Cadastrados</Text>
+          <Text style={styles.title}>Desempenho</Text>
           <View style={styles.ellipse}></View>
         </View>
       </View>
 
       {/* Conteúdo da página */}
-      <View style={styles.logoContainer}>
+      <TouchableOpacity onPress={navigateToDesempenho} style={styles.logoContainer}>
         <Image source={require('./assets/LogoIcon.png')} style={styles.logoImage} />
-        <Text style={styles.logoText}>Jovens Aprendizes Cadastrados</Text>
-      </View>
+        <Text style={styles.logoText}>Desempenho Jovens Aprendizes</Text>
+      </TouchableOpacity>
+
+      {/* Novo Botão com as Especificações Fornecidas */}
+      <TouchableOpacity style={styles.novoBotao} onPress={onPressNovoBotao}>
+        <Text style={styles.novoBotaoTexto}>Desempenho</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -94,5 +111,20 @@ const styles = StyleSheet.create({
     fontFamily: 'Inter',
     fontSize: 16,
     color: '#333333',
+  },
+  novoBotao: {
+    width: 327,
+    height: 48,
+    marginTop: 20,
+    backgroundColor: '#28086B', // Cor de fundo do botão
+    borderRadius: 16,
+    justifyContent: 'center', // Centraliza o conteúdo verticalmente
+    alignItems: 'center', // Centraliza o conteúdo horizontalmente
+  },
+  novoBotaoTexto: {
+    fontFamily: 'Inter',
+    fontSize: 16,
+    color: 'white',
+    textAlign: 'center',
   },
 });
