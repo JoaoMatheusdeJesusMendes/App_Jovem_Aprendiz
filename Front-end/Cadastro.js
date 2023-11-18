@@ -1,5 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Image, TouchableOpacity, ImageBackground} from 'react-native';
+import React, {useState} from 'react'
+import logo from "./assets/LogoItemm.png";
 
 function Cadastro({navigation}){
   const [nome, setNome] = useState("");
