@@ -1,0 +1,12 @@
+{
+  "dependencies": {
+    "install": "^0.13.0",
+    "mongodb": "^6.2.0",
+    "moongose": "^1.0.0",
+    "npm": "^10.2.3",
+    "pdfkit": "^0.14.0"
+  },
+  "scripts": {
+    "dev": "nodemon App.js"
+  }
+}
