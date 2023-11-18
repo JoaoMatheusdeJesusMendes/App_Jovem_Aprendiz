@@ -92,7 +92,7 @@ const stylesSelect = StyleSheet.create({
   },
 });
 
-export default function App() {
+export function Avaliacao() {
   const [presencaOption, setPresencaOption] = useState('Selecione o tipo');
   const [participacaoOption, setParticipacaoOption] = useState('Selecione o tipo');
   const [relacionamentoOption, setRelacionamentoOption] = useState('Selecione o tipo');
