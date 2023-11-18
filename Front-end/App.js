@@ -1,14 +1,21 @@
 import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View } from 'react-native';
-import Cadastrados from './components/CadastradosComponent'; // Ajuste o caminho conforme a estrutura do seu projeto
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import Cadastrados from './components/Cadastrados'; // Ajuste o caminho conforme a estrutura do seu projeto
+
+const Tab = createBottomTabNavigator();
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Cadastrados />
+    <NavigationContainer>
+      <Tab.Navigator>
+        <Tab.Screen name="Cadastrados" component={Cadastrados} />
+        {/* Adicione outras telas aqui, se necessário */}
+      </Tab.Navigator>
       <StatusBar style="auto" />
-    </View>
+    </NavigationContainer>
   );
 }
 
