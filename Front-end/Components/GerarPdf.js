@@ -68,7 +68,7 @@ const GerarPDFs = ({ navigation }) => {
       </View>
 
       <TouchableOpacity onPress={navigateToDesempenho} style={styles.logoContainer}>
-        <Image source={require('../assets/IconLogo.png')} style={styles.logoImage} />
+      <Image source={require('../assets/iconLogo.png')} style={styles.logoImage} />
         <Text style={styles.logoText}>Selecione o candidato para gerar o PDF</Text>
       </TouchableOpacity>
 
