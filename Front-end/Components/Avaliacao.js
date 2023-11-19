@@ -1,7 +1,16 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TextInput, Image, TouchableOpacity, ScrollView, Modal} from 'react-native';
-import React, {useState} from 'react';
-import icon from "./assets/iconLogo.png";
+import React, { useState } from 'react';
+import {
+  View,
+  Text,
+  TextInput,
+  Image,
+  TouchableOpacity,
+  StyleSheet,
+  ScrollView,
+  Modal,
+} from 'react-native';
+import icon from '../assets/IconLogo.png'; // Substitua ".png" pela extensão correta, se necessário
+
 
 const CustomSelect = ({ options, selectedOption, onSelect }) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -12,8 +21,10 @@ const CustomSelect = ({ options, selectedOption, onSelect }) => {
 
   return (
     <View>
-      <TouchableOpacity onPress={toggleModal} style={stylesSelect.selectButton}>
-        <Text style={stylesSelect.textSelect}>{selectedOption}</Text>
+      <TouchableOpacity onPress={toggleModal} style={styles.selectButton}>
+        <View style={styles.selectContainer}>
+          <Text style={styles.textSelect}>{selectedOption}</Text>
+        </View>
       </TouchableOpacity>
       <Modal
         animationType="slide"
@@ -21,21 +32,21 @@ const CustomSelect = ({ options, selectedOption, onSelect }) => {
         visible={modalVisible}
         onRequestClose={toggleModal}
       >
-        <View style={stylesSelect.modalContainer}>
+        <View style={styles.modalContainer}>
           {options.map((option) => (
             <TouchableOpacity
               key={option}
-              style={stylesSelect.optionItem}
+              style={styles.optionItem}
               onPress={() => {
                 onSelect(option);
                 toggleModal();
               }}
             >
-              <Text style={stylesSelect.textOption}>{option}</Text>
+              <Text style={styles.textOption}>{option}</Text>
             </TouchableOpacity>
           ))}
-          <TouchableOpacity onPress={toggleModal} style={stylesSelect.closeButton}>
-            <Text style={stylesSelect.textClose}>Fechar</Text>
+          <TouchableOpacity onPress={toggleModal} style={styles.closeButton}>
+            <Text style={styles.textClose}>Fechar</Text>
           </TouchableOpacity>
         </View>
       </Modal>
@@ -43,56 +54,7 @@ const CustomSelect = ({ options, selectedOption, onSelect }) => {
   );
 };
 
-const stylesSelect = StyleSheet.create({
-  textSelect: {
-    marginTop: 13,
-    color: 'rgba(0, 0, 0, 0.5)',
-  },
-  textClose: {
-    textAlign: 'center',
-    marginTop: 5,
-    color: 'white',
-  },
-  textOption: {
-    textAlign: 'center',
-    marginTop: 5,
-  },
-  selectButton: {
-    alignSelf: 'center',
-    borderWidth:2, 
-    borderColor:"#0D0157", 
-    width: 300, 
-    height: 50, 
-    borderRadius: 10, 
-    marginBottom: 10,
-    paddingLeft: 10,
-  },
-  modalContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    borderRadius: 10,
-  },
-  optionItem: {
-    backgroundColor: 'white',
-    width: 200,
-    height: 50,
-    padding: 10,
-    margin: 5,
-    borderRadius: 20,
-  },
-  closeButton: {
-    marginTop: 10,
-    backgroundColor: '#0D0157',
-    width: 200,
-    height: 30,
-    margin: 5,
-    borderRadius: 10,
-  },
-});
-
-export function Avaliacao() {
+const Avaliacao = () => {
   const [presencaOption, setPresencaOption] = useState('Selecione o tipo');
   const [participacaoOption, setParticipacaoOption] = useState('Selecione o tipo');
   const [relacionamentoOption, setRelacionamentoOption] = useState('Selecione o tipo');
@@ -103,6 +65,7 @@ export function Avaliacao() {
   const relacionamento = ['Excelente', 'Suficiente', 'Insuficiente'];
   const metas = ['Excelente', 'Suficiente', 'Insuficiente'];
   const habilidade = ['Excelente', 'Suficiente', 'Insuficiente'];
+
   const handleSelectPresenca = (option) => {
     setPresencaOption(option);
   };
@@ -112,113 +75,155 @@ export function Avaliacao() {
   const handleSelectRelacionamento = (option) => {
     setRelacionamentoOption(option);
   };
-  const handleSelectMetas= (option) => {
+  const handleSelectMetas = (option) => {
     setMetasOption(option);
   };
-  const handleSelectHabilidade= (option) => {
+  const handleSelectHabilidade = (option) => {
     setHabilidadeOption(option);
   };
-  return (
-    <View>
-    <View>
-      <Image
-      style={styles.imgStyleRegister}
-      source={icon}></Image>
-    </View>
-    <View style={styles.loginAreas}>
-      <Text
-      style={styles.titleTextsRegister}>Presença</Text>
-      <CustomSelect
-        options={presenca}
-        selectedOption={presencaOption}
-        onSelect={handleSelectPresenca}
-      />
-    </View>
-    <View style={styles.loginAreas}>
-      <Text
-      style={styles.titleTextsRegister}>Participação</Text>
-      <CustomSelect
-        options={participacao}
-        selectedOption={participacaoOption}
-        onSelect={handleSelectParticipacao}
-      />
-    </View>
-    <View style={styles.loginAreas}>
-      <Text
-      style={styles.titleTextsRegister}>Relacionamento Interpessoal</Text>
-      <CustomSelect
-        options={relacionamento}
-        selectedOption={relacionamentoOption}
-        onSelect={handleSelectRelacionamento}
-      />
-    </View>
-    <View style={styles.loginAreas}>
-      <Text
-      style={styles.titleTextsRegister}>Cumprimento de metas</Text>
-      <CustomSelect
-        options={metas}
-        selectedOption={metasOption}
-        onSelect={handleSelectMetas}
-      />
-    </View>
-    <View style={styles.loginAreas}>
-      <Text
-      style={styles.titleTextsRegister}>Habilidade técnica</Text>
-      <CustomSelect
-        options={habilidade}
-        selectedOption={habilidadeOption}
-        onSelect={handleSelectHabilidade}
-      />
-    </View>
-    <View>
-      <TouchableOpacity
-      style={styles.buttonFormat}
-      ><Text style={styles.textButton}>Avaliar</Text></TouchableOpacity>
-    </View>
-  </View>
-  );
-}
 
+  return (
+    <ScrollView contentContainerStyle={styles.container}>
+      <View style={styles.content}>
+        <Image style={styles.logo} source={icon} />
+
+        <View style={styles.formGroup}>
+          <Text style={styles.label}>Presença</Text>
+          <CustomSelect
+            options={presenca}
+            selectedOption={presencaOption}
+            onSelect={handleSelectPresenca}
+          />
+        </View>
+
+        <View style={styles.formGroup}>
+          <Text style={styles.label}>Participação</Text>
+          <CustomSelect
+            options={participacao}
+            selectedOption={participacaoOption}
+            onSelect={handleSelectParticipacao}
+          />
+        </View>
+
+        <View style={styles.formGroup}>
+          <Text style={styles.label}>Relacionamento Interpessoal</Text>
+          <CustomSelect
+            options={relacionamento}
+            selectedOption={relacionamentoOption}
+            onSelect={handleSelectRelacionamento}
+          />
+        </View>
+
+        <View style={styles.formGroup}>
+          <Text style={styles.label}>Cumprimento de Metas</Text>
+          <CustomSelect
+            options={metas}
+            selectedOption={metasOption}
+            onSelect={handleSelectMetas}
+          />
+        </View>
+
+        <View style={styles.formGroup}>
+          <Text style={styles.label}>Habilidade Técnica</Text>
+          <CustomSelect
+            options={habilidade}
+            selectedOption={habilidadeOption}
+            onSelect={handleSelectHabilidade}
+          />
+        </View>
+
+        <TouchableOpacity style={styles.button} onPress={() => {}}>
+          <Text style={styles.buttonText}>Avaliar</Text>
+        </TouchableOpacity>
+      </View>
+    </ScrollView>
+  );
+};
 
 const styles = StyleSheet.create({
-  loginAreas: {
+  container: {
+    flexGrow: 1,
+    justifyContent: 'center',
+    paddingVertical: 20,
+    paddingHorizontal: 16,
+    backgroundColor: '#fff', // Cor de fundo branco
+  },
+  content: {
     alignItems: 'center',
   },
-  buttonFormat: {
+  logo: {
+    width: 220,
+    height: 165,
+    marginBottom: 20,
+  },
+  formGroup: {
+    marginBottom: 20,
+    width: '100%',
+  },
+  label: {
+    fontSize: 16,
+    marginBottom: 8,
+    alignSelf: 'flex-start',
+  },
+  button: {
     backgroundColor: '#0D0157',
-    width: 300, 
+    width: '100%',
     height: 50,
-    alignSelf: 'center',
-    borderRadius: 30, 
-    paddingTop: 11,
-    marginTop: 40,
-    marginBottom: 10,
-  },
-  textButton: {
-    color: 'white',
-    alignSelf: 'center',
-    justifyContent: 'space-between',
-    fontSize: 20,
-  },
-  imgStyleRegister: {
-    width: 220, 
-    height: 165, 
-    alignSelf: 'center',
-    marginBottom: 10,
+    borderRadius: 30,
+    alignItems: 'center',
+    justifyContent: 'center',
     marginTop: 20,
   },
-  titleTextsRegister: {
-    alignSelf: 'flex-start',
-    marginLeft: 50,
-    fontSize: 17,
+  buttonText: {
+    color: 'white',
+    fontSize: 20,
   },
-  textBoxRegister: {
-    borderWidth:2, 
-    borderColor:"#0D0157", 
-    width: 300, 
-    height: 50, 
-    borderRadius: 10, 
-    marginBottom: 10,
-    paddingLeft: 10,
+  // Estilos para o componente CustomSelect (pode ser ajustado conforme necessário)
+  selectButton: {
+    backgroundColor: '#fff',
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#28086B', // Cor da borda
+  },
+  selectContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  textSelect: {
+    fontSize: 16,
+    color: '#333',
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.3)',
+  },
+  optionItem: {
+    backgroundColor: '#fff',
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+    marginVertical: 8,
+    borderRadius: 8,
+  },
+  textOption: {
+    fontSize: 16,
+    color: '#333',
+  },
+  closeButton: {
+    backgroundColor: '#0D0157',
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+    marginVertical: 8,
+    borderRadius: 8,
+  },
+  textClose: {
+    fontSize: 16,
+    color: 'white', // Adicione a cor desejada
   },
 });
+
+export default Avaliacao;

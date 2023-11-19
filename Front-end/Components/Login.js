@@ -1,55 +1,38 @@
 import React, { useState } from 'react';
 import { Text, View, StyleSheet, Image, TextInput, TouchableOpacity } from 'react-native';
 
-export default function Cadastro() {
-  const [nome, setNome] = useState('');
-  const [cpf, setCpf] = useState('');
-  const [telefone, setTelefone] = useState('');
+export default function Login() {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
 
-  const handleCadastro = () => {
-    // Lógica de cadastro
+  const handleLogin = () => {
+    // Lógica de login
   };
 
   return (
     <View style={styles.container}>
-      {/* Adicionando a imagem com resizeMode "contain" */}
       <Image style={styles.logo} resizeMode="contain" source={require('../assets/iconLogo.png')} />
 
       <TextInput
-        value={nome}
-        placeholder="Cadastre seu Nome"
-        onChangeText={(text) => setNome(text)}
-        style={styles.input}
-      />
-      <TextInput
-        value={cpf}
-        placeholder="Cadastre seu CPF"
-        onChangeText={(text) => setCpf(text)}
-        style={styles.input}
-      />
-      <TextInput
-        value={telefone}
-        placeholder="Cadastre seu telefone"
-        onChangeText={(text) => setTelefone(text)}
-        style={styles.input}
-      />
-      <TextInput
         value={email}
-        placeholder="Cadastre seu e-mail"
+        placeholder="Digite seu e-mail"
         onChangeText={(text) => setEmail(text)}
         style={styles.input}
       />
       <TextInput
         value={senha}
-        placeholder="Cadastre sua senha"
+        placeholder="Digite sua senha"
         secureTextEntry={true}
         onChangeText={(text) => setSenha(text)}
         style={styles.input}
       />
-      <TouchableOpacity style={styles.button} onPress={handleCadastro}>
-        <Text style={styles.buttonText}>Cadastrar</Text>
+      <TouchableOpacity style={styles.button} onPress={handleLogin}>
+        <Text style={styles.buttonText}>Login</Text>
+      </TouchableOpacity>
+
+      {/* Adicionando um link para a página de cadastro */}
+      <TouchableOpacity style={styles.link} onPress={() => console.log('Ir para a página de cadastro')}>
+        <Text style={styles.linkText}>Não tem uma conta? Cadastre-se aqui</Text>
       </TouchableOpacity>
     </View>
   );
@@ -60,6 +43,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     padding: 24,
+    flex: 1,
   },
   logo: {
     height: 128,
@@ -86,5 +70,12 @@ const styles = StyleSheet.create({
   buttonText: {
     color: 'white',
     fontSize: 20,
+  },
+  // Adicionando estilos para o link de cadastro
+  link: {
+    marginTop: 10,
+  },
+  linkText: {
+    color: '#28086B',
   },
 });
