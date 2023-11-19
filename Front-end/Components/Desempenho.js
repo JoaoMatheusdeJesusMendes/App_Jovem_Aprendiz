@@ -1,32 +1,35 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
+import axios from 'axios';
 
-// Dados de exemplo para teste
-const dadosExemplo = [
-  {
-    "_id": "654f16bd0dedc07aa90107b2",
-    "class": "1A",
-    "name": "Luiz Pereira Reiz",
-    "role": "Aspirante",
-    // ... (outras informações)
-  },
-  {
-    "_id": "65596fd3a7c3f008b30c3e17",
-    "class": "1A",
-    "name": "Vinicius",
-    "role": "Aspirante",
-    // ... (outras informações)
-  },
-  // Adicione mais jovens aprendizes conforme necessário
-];
+const Desempenho = ({ navigation }) => {
+  const [dados, setDados] = useState([]);
 
-const Desempenho = () => {
-  const [dados, setDados] = useState(dadosExemplo);
+  useEffect(() => {
+    // Função para buscar os dados da API
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('http://192.168.0.103:3000/api/youngApprentice');
+        setDados(response.data);
+      } catch (error) {
+        console.error('Erro ao obter dados:', error.message);
+        // Trate o erro conforme necessário (exibindo uma mensagem para o usuário, por exemplo)
+      }
+    };
+
+    // Chama a função de busca ao montar o componente
+    fetchData();
+  }, []); // O array vazio como segundo argumento garante que o useEffect seja executado apenas uma vez (ao montar o componente)
 
   const renderItem = ({ item }) => (
-    <TouchableOpacity style={styles.candidatoItem}>
+    <TouchableOpacity
+      style={styles.candidatoItem}
+      onPress={() => navigation.navigate('DetalhesDesempenho', { jovemAprendiz: item })}
+    >
       <View style={styles.candidatoInfo}>
         <Text style={styles.candidatoNome}>{item.name}</Text>
+        <Text style={styles.candidatoInfoText}>{`Turma: ${item.class}`}</Text>
+        <Text style={styles.candidatoInfoText}>{`Função: ${item.role}`}</Text>
         {/* Adicione mais campos conforme necessário */}
       </View>
     </TouchableOpacity>
@@ -91,6 +94,11 @@ const styles = StyleSheet.create({
   candidatoNome: {
     fontSize: 16,
     color: '#000',
+  },
+  candidatoInfoText: {
+    fontSize: 14,
+    color: '#333',
+    marginTop: 5,
   },
 });
 
