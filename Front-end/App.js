@@ -6,6 +6,9 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Ionicons } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native';
+import { Foundation } from '@expo/vector-icons';
+import { FontAwesome5 } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
 
 
 import Cadastro from './Components/Cadastro'
@@ -31,11 +34,52 @@ const AppTabs = () => {
   return (
     <Tab.Navigator 
     initialRouteName="Cadastrados">
-      <Tab.Screen name="Cadastro" component={CadastroJA}/>
-      <Tab.Screen name="Cadastrados" component={CadastradosJA}/>
-      <Tab.Screen name="Avaliacao" component={Avaliacao} />
-      <Tab.Screen name="Desempenho" component={Desempenho}/>  
-      <Tab.Screen name="  " component={GerarPDFs}/>
+      <Tab.Screen 
+      name="Cadastro" 
+      component={CadastroJA}
+      options={{
+        tabBarLabel:"Cadastro",
+        tabBarIcon: () => (
+          <Foundation name="clipboard-pencil" size={24} color="blue" />
+        )
+        }}
+      />
+      <Tab.Screen 
+      name="Cadastrados" 
+      component={CadastradosJA}
+      options={{
+        tabBarLabel:"Cadastrados",
+        tabBarIcon: () => (
+          <FontAwesome5 name="clipboard-list" size={24} color="blue" />
+        )
+        }}/>
+      <Tab.Screen 
+      name="Avaliacao" 
+      component={Avaliacao}
+      options={{
+        tabBarLabel:"Avaliação",
+        tabBarIcon: () => (
+        <AntDesign name="checksquare" size={24} color="blue" />
+        )
+      }}/>
+      <Tab.Screen 
+      name="Desempenho" 
+      component={Desempenho}
+      options={{
+        tabBarLabel:"Desempenho",
+        tabBarIcon: () => (
+        <Foundation name="results-demographics" size={24} color="blue"/>
+        )
+      }}/>
+      <Tab.Screen 
+      name="  " 
+      component={GerarPDFs}
+      options={{
+        tabBarLabel:"Gerar PDF",
+        tabBarIcon: () => (
+        <AntDesign name="pdffile1" size={24} color="blue"/>
+        )
+        }}/>
     </Tab.Navigator>
   );
 };
