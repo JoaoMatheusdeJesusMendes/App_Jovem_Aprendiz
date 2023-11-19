@@ -11,7 +11,7 @@ export default function Login() {
 
   return (
     <View style={styles.container}>
-      <Image style={styles.logo} resizeMode="contain" source={require('../assets/iconLogo.png')} />
+      <Image style={styles.logo} resizeMode="contain" source={require('../assets/IconLogo.png')} />
 
       <TextInput
         value={email}

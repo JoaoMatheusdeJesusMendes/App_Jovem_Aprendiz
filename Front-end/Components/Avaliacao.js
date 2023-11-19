@@ -9,7 +9,7 @@ import {
   ScrollView,
   Modal,
 } from 'react-native';
-import icon from '../assets/iconLogo.png'; // Substitua ".png" pela extensão correta, se necessário
+import icon from '../assets/IconLogo.png'; // Substitua ".png" pela extensão correta, se necessário
 
 
 const CustomSelect = ({ options, selectedOption, onSelect }) => {

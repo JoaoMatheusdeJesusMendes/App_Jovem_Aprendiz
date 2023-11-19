@@ -15,7 +15,7 @@ export default function Cadastro() {
   return (
     <View style={styles.container}>
       {/* Adicionando a imagem com resizeMode "contain" */}
-      <Image style={styles.logo} resizeMode="contain" source={require('../assets/iconLogo.png')} />
+      <Image style={styles.logo} resizeMode="contain" source={require('../assets/IconLogo.png')} />
 
       <TextInput
         value={nome}

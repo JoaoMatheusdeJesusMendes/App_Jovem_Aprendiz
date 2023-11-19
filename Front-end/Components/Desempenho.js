@@ -24,15 +24,21 @@ const Desempenho = () => {
   const [dados, setDados] = useState(dadosExemplo);
 
   const renderItem = ({ item }) => (
-    <TouchableOpacity style={styles.item}>
-      <Text style={styles.itemText}>{item.name}</Text>
-      {/* Adicione mais campos conforme necessário */}
+    <TouchableOpacity style={styles.candidatoItem}>
+      <View style={styles.candidatoInfo}>
+        <Text style={styles.candidatoNome}>{item.name}</Text>
+        {/* Adicione mais campos conforme necessário */}
+      </View>
     </TouchableOpacity>
   );
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Desempenho Jovens Aprendizes</Text>
+      <View style={styles.header}>
+        <View style={styles.ellipse}></View>
+        <Text style={styles.title}>Desempenho</Text>
+        <View style={styles.ellipse}></View>
+      </View>
       <FlatList
         data={dados}
         keyExtractor={(item) => item._id.toString()}
@@ -46,22 +52,45 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    padding: 16,
+  },
+  header: {
+    backgroundColor: '#28086B',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 15,
   },
   title: {
     fontSize: 20,
     fontWeight: 'bold',
-    marginBottom: 16,
+    color: 'white',
+    marginHorizontal: 15,
   },
-  item: {
-    backgroundColor: '#28086B',
+  ellipse: {
+    width: 11,
+    height: 11,
+    borderRadius: 5.5,
+    backgroundColor: 'white',
+    marginHorizontal: 5,
+  },
+  candidatoItem: {
+    backgroundColor: 'white',
     padding: 20,
     marginVertical: 8,
+    width: '90%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    borderWidth: 2,
+    borderColor: '#28086B',
     borderRadius: 8,
+    alignSelf: 'center',
   },
-  itemText: {
-    color: 'white',
+  candidatoInfo: {
+    flex: 1,
+  },
+  candidatoNome: {
     fontSize: 16,
+    color: '#000',
   },
 });
 

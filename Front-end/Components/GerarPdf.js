@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image, FlatList } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import * as Font from 'expo-font';
 
 const GerarPDFs = ({ navigation }) => {
@@ -32,7 +33,6 @@ const GerarPDFs = ({ navigation }) => {
   }, []);
 
   const openMenu = () => {
-    // Adicione a lógica para abrir o menu
     console.log('Abrir Menu');
   };
 
@@ -42,7 +42,6 @@ const GerarPDFs = ({ navigation }) => {
   };
 
   const onPressNovoBotao = () => {
-    // Adicione a lógica para o novo botão
     if (candidatoSelecionado) {
       console.log(`GERAR PDF para ${candidatoSelecionado.name}`);
     } else {
@@ -58,7 +57,7 @@ const GerarPDFs = ({ navigation }) => {
     <View style={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity onPress={openMenu} style={styles.menuIcon}>
-          <Image source={require('../assets/iconLogo.png')} style={styles.menuIconImage} />
+          <Image source={require('../assets/IconLogo.png')} style={styles.menuIconImage} />
         </TouchableOpacity>
         <View style={styles.ellipseContainer}>
           <View style={styles.ellipse}></View>
@@ -68,26 +67,32 @@ const GerarPDFs = ({ navigation }) => {
       </View>
 
       <TouchableOpacity onPress={navigateToDesempenho} style={styles.logoContainer}>
-      <Image source={require('../assets/iconLogo.png')} style={styles.logoImage} />
+        <Image source={require('../assets/IconLogo.png')} style={styles.logoImage} />
         <Text style={styles.logoText}>Selecione o candidato para gerar o PDF</Text>
       </TouchableOpacity>
 
       <FlatList
-        data={candidatos}
-        keyExtractor={(item) => item._id}
-        renderItem={({ item }) => (
-          <TouchableOpacity
-            style={[
-              styles.candidatoItem,
-              candidatoSelecionado?._id === item._id && styles.candidatoSelecionado,
-            ]}
-            onPress={() => selecionarCandidato(item)}
-          >
-            <Text style={styles.candidatoNome}>{item.name}</Text>
-            <Text style={styles.candidatoDataNascimento}>{item.birthDate}</Text>
-          </TouchableOpacity>
-        )}
-      />
+  data={candidatos}
+  keyExtractor={(item) => item._id}
+  renderItem={({ item }) => (
+    <TouchableOpacity
+      style={[
+        styles.candidatoItem,
+        candidatoSelecionado?._id === item._id && styles.candidatoSelecionado,
+      ]}
+      onPress={() => selecionarCandidato(item)}
+    >
+      <View style={styles.candidatoInfo}>
+        <Text style={styles.candidatoNome}>{item.name}</Text>
+        <Text style={styles.candidatoDataNascimento}>{item.birthDate}</Text>
+      </View>
+      {candidatoSelecionado?._id === item._id && (
+        <Ionicons name="checkmark" size={24} color="green" />
+      )}
+    </TouchableOpacity>
+  )}
+  contentContainerStyle={{ paddingBottom: 20 }} // Adicione este estilo
+/>
 
       <TouchableOpacity
         style={[styles.novoBotao, !candidatoSelecionado && styles.novoBotaoDesabilitado]}
@@ -105,6 +110,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#ffffff',
     alignItems: 'center',
+    justifyContent: 'center', // Centraliza verticalmente
   },
   header: {
     flexDirection: 'row',
@@ -159,18 +165,22 @@ const styles = StyleSheet.create({
     color: '#333333',
   },
   candidatoItem: {
-    backgroundColor: '#f9c2ff',
-    padding: 20,
-    marginVertical: 8,
-    width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: 10,
+    marginVertical: 8,
+    width: '90%', // Ajuste aqui para definir a largura desejada
     borderWidth: 2,
     borderColor: '#28086B',
     borderRadius: 8,
+    backgroundColor: 'white',
   },
   candidatoSelecionado: {
-    backgroundColor: 'white',
+    borderColor: 'green',
+  },
+  candidatoInfo: {
+    flex: 1,
   },
   candidatoNome: {
     fontSize: 16,
@@ -190,13 +200,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   novoBotaoDesabilitado: {
-    backgroundColor: '#ccc', // Cor de fundo para o botão desabilitado
+    backgroundColor: '#ccc',
   },
   novoBotaoTexto: {
     fontFamily: 'Inter',
     fontSize: 16,
     color: 'white',
     textAlign: 'center',
+  },
+  candidatosContainer: {
+    flexGrow: 1,
+    justifyContent: 'center',
   },
 });
 

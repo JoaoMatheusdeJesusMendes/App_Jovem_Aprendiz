@@ -11,7 +11,7 @@ import { TouchableOpacity } from 'react-native';
 import Cadastro from './Components/Cadastro'
 import Avaliacao from './Components/Avaliacao';
 import Login from './Components/Login';
-import CadastroJA from './Components/CadastradosJA';
+import CadastroJA from './Components/CadastroJA';
 import CadastradosJA from './Components/CadastradosJA';
 import GerarPDFs from './Components/GerarPdf'
 import Desempenho from './Components/Desempenho';
