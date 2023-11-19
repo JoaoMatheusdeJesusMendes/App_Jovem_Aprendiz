@@ -1,26 +1,25 @@
-// components/CadastradosJA.js
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
-
-// Exemplo de dados para teste
-const dadosExemplo = [
-  {
-    "_id": "654f16bd0dedc07aa90107b2",
-    "class": "1A",
-    "name": "Luiz Pereira Reiz",
-    "birthDate": "14/05/2001",
-  },
-  {
-    "_id": "65596fd3a7c3f008b30c3e17",
-    "class": "1A",
-    "name": "Vinicius",
-    "birthDate": "12/03/2001",
-  },
-];
+import axios from 'axios';
 
 const CadastradosJA = ({ navigation }) => {
-  const [dados, setDados] = useState(dadosExemplo);
+  const [dados, setDados] = useState([]);
+
+  useEffect(() => {
+    // Função para buscar os dados da API
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('http://192.168.0.103:3000/api/youngApprentice');
+        setDados(response.data);
+      } catch (error) {
+        console.error('Erro ao obter dados:', error.message);
+        // Trate o erro conforme necessário (exibindo uma mensagem para o usuário, por exemplo)
+      }
+    };
+
+    // Chama a função de busca ao montar o componente
+    fetchData();
+  }, []); // O array vazio como segundo argumento garante que o useEffect seja executado apenas uma vez (ao montar o componente)
 
   return (
     <View style={styles.container}>
@@ -66,7 +65,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   itemText: {
-    color: '#000',  // Altere a cor do texto conforme necessário
+    color: '#000',
     marginBottom: 8,
   },
 });
