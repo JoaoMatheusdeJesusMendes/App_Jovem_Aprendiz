@@ -8,12 +8,14 @@ import {
   StyleSheet,
   ScrollView,
   Modal,
+  Alert,
 } from 'react-native';
-import icon from '../assets/IconLogo.png';
-import logo from '../assets/LogoItemm.png';
+import axios from 'axios';
 
 const CustomSelect = ({ options, selectedOption, onSelect }) => {
   const [modalVisible, setModalVisible] = useState(false);
+  const ativoOptions = ['Sim', 'Não'];
+
 
   const toggleModal = () => {
     setModalVisible(!modalVisible);
@@ -54,7 +56,7 @@ const CustomSelect = ({ options, selectedOption, onSelect }) => {
   );
 };
 
-const CadastroJA = () => {
+export default function CadastroJA() {
   const [turma, setTurma] = useState('');
   const [nome, setNome] = useState('');
   const [funcao, setFuncao] = useState('');
@@ -71,16 +73,51 @@ const CadastroJA = () => {
   const [horasPratica, setHorasPratica] = useState('');
   const [horasTeorica, setHorasTeorica] = useState('');
   const [modelo, setModelo] = useState('');
-  const [ativo, setAtivo] = useState('');
   const [vencimentoContrato, setVencimentoContrato] = useState('');
   const [motivoDesligamento, setMotivoDesligamento] = useState('');
   const [formasDesligamento, setFormasDesligamento] = useState('');
+  const ativoOptions = ['Sim', 'Não'];
+  const [ativo, setAtivo] = useState('');
+
+  const handleCadastroJA = async () => {
+    try {
+      const response = await axios.post('http://192.168.0.103:3000/api/youngApprentice/register', {
+        class: turma,
+        name: nome,
+        role: funcao,
+        instructor: instrutor,
+        city: cidade,
+        cnpj: cnpj,
+        phone: telefone,
+        birthDate: dataNascimento,
+        admission: admissao,
+        end: termino,
+        contractPeriod: periodoContrato,
+        cpf: cpf,
+        rg: rg,
+        practiceHours: horasPratica,
+        theoreticalHours: horasTeorica,
+        model: modelo,
+        active: ativo,
+        contractExpiration: vencimentoContrato,
+        // Adicione outros campos conforme necessário
+      });
+
+      console.log('Resposta do banco de dados:', response.data);
+
+      // Lógica para lidar com a resposta da solicitação, se necessário
+
+    } catch (error) {
+      console.error('Erro ao cadastrar:', error.message);
+      // Trate o erro conforme necessário (exibindo uma mensagem para o usuário, por exemplo)
+      Alert.alert('Erro', 'Erro ao cadastrar. Por favor, tente novamente.');
+    }
+  };
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.imageContainer}>
-        <Image style={styles.imgStyleLogo} source={icon} />
-        <Image style={styles.imgStyleRegister} source={logo} />
+        <Image style={styles.imgStyleLogo} resizeMode="contain" source={require('../assets/IconLogo.png')} />
       </View>
       <View style={styles.loginAreas}>
         <Text style={styles.titleTextsRegister}>Turma</Text>
@@ -228,11 +265,10 @@ const CadastroJA = () => {
       </View>
       <View style={styles.loginAreas}>
         <Text style={styles.titleTextsRegister}>Ativo</Text>
-        <TextInput
-          value={ativo}
-          placeholder="Informe se está ativo"
-          onChangeText={(text) => setAtivo(text)}
-          style={styles.textBoxRegister}
+        <CustomSelect
+          options={ativoOptions}
+          selectedOption={ativo}
+          onSelect={(option) => setAtivo(option === 'Sim')}
         />
       </View>
       <View style={styles.loginAreas}>
@@ -262,17 +298,16 @@ const CadastroJA = () => {
           style={styles.textBoxRegister}
         />
       </View>
-      <TouchableOpacity style={styles.buttonFormatRegister}>
+      <TouchableOpacity style={styles.buttonFormatRegister} onPress={handleCadastroJA}>
         <Text style={styles.textButton}>Cadastrar</Text>
       </TouchableOpacity>
     </ScrollView>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#ffff',
   },
   loginAreas: {
     alignItems: 'center',
@@ -318,8 +353,8 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   imgStyleLogo: {
-    width: 50,
-    height: 50,
+    width: 200,
+    height: 200,
     alignSelf: 'center',
     marginBottom: 10,
     marginTop: 10,
@@ -371,5 +406,3 @@ const styles = StyleSheet.create({
     color: 'white',
   },
 });
-
-export default CadastroJA;
