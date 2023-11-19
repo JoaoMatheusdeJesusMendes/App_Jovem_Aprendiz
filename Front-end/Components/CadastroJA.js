@@ -81,7 +81,7 @@ export default function CadastroJA() {
 
   const handleCadastroJA = async () => {
     try {
-      const response = await axios.post('http://192.168.0.103:3000/api/youngApprentice/register', {
+      const response = await axios.post('http://192.168.0.10:3000/api/youngApprentice/register', {
         class: turma,
         name: nome,
         role: funcao,
@@ -365,8 +365,10 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 16,
     borderRadius: 8,
-    borderWidth: 1,
-    borderColor: '#28086B',
+    borderWidth: 2,
+    width: 300,
+    height: 50,
+    borderColor: '##0D0157',
   },
   selectContainer: {
     flexDirection: 'row',

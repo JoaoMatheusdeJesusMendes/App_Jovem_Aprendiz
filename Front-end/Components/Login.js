@@ -7,7 +7,7 @@ export default function Login({ navigation }) {
 
   const handleLogin = async () => {
     try {
-      const response = await fetch('http://192.168.0.103:3000/api/auth/login', {
+      const response = await fetch('http://192.168.0.10:3000/api/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -26,7 +26,7 @@ export default function Login({ navigation }) {
 
         // Adicione lógica adicional conforme necessário (navegação, etc.)
         // Por exemplo, redirecione para a página principal após o login:
-        navigation.navigate('Desempenho');
+        navigation.navigate(' ');
       } else {
         // Tratar erros de login
         console.error('Erro ao realizar login:', data.msg);
@@ -79,8 +79,9 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   logo: {
-    height: 128,
-    width: 128,
+    height: 240,
+    width: 240,
+    marginBottom: 20,
   },
   input: {
     borderWidth: 2,
@@ -88,7 +89,7 @@ const styles = StyleSheet.create({
     width: 300,
     height: 50,
     borderRadius: 10,
-    marginBottom: 10,
+    marginBottom: 20,
     paddingLeft: 10,
   },
   button: {

@@ -10,7 +10,7 @@ const GerarPDF = ({ navigation }) => {
     // Função para buscar os dados da API
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://192.168.0.103:3000/api/youngApprentice');
+        const response = await axios.get('http://192.168.0.10:3000/api/youngApprentice');
         setDados(response.data);
       } catch (error) {
         console.error('Erro ao obter dados:', error.message);
@@ -26,7 +26,7 @@ const GerarPDF = ({ navigation }) => {
     if (selectedId) {
       try {
         // Realiza a solicitação GET passando o ID como parâmetro
-        const response = await axios.get(`http://192.168.0.103:3000/api/youngApprentice/generatePDF/${selectedId}`);
+        const response = await axios.get(`http://192.168.0.10:3000/api/youngApprentice/generatePDF/${selectedId}`);
         
         // Aqui você pode fazer o que quiser com os dados do PDF
         console.log('Dados do PDF:', response.data);
@@ -65,7 +65,12 @@ const GerarPDF = ({ navigation }) => {
           </TouchableOpacity>
         )}
       />
-      <Button title="Gerar PDF" onPress={handleGerarPDF} />
+      <TouchableOpacity 
+      style={styles.buttonPDF} 
+      title="Gerar PDF" 
+      onPress={handleGerarPDF}>
+      <Text style={styles.buttonText}>Gerar PDF</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -103,6 +108,20 @@ const styles = StyleSheet.create({
   okIcon: {
     fontSize: 20,
     color: 'green',
+  },
+  buttonPDF: {
+    alignSelf: 'center',
+    backgroundColor: '#28086B',
+    width: 350,
+    height: 50,
+    borderRadius: 30,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 20,
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 20,
   },
 });
 

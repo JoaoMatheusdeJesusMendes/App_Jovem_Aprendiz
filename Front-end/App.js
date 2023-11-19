@@ -29,16 +29,13 @@ const HeaderMenuButton = ({ onPress }) => {
 
 const AppTabs = () => {
   return (
-    <Tab.Navigator>
-      <Tab.Screen name="Login" component={Login}/>
-      <Tab.Screen name="Cadastro" component={Cadastro} />
+    <Tab.Navigator 
+    initialRouteName="Cadastrados">
+      <Tab.Screen name="Cadastro" component={CadastroJA}/>
+      <Tab.Screen name="Cadastrados" component={CadastradosJA}/>
       <Tab.Screen name="Avaliacao" component={Avaliacao} />
-      <Tab.Screen name="CadastroJA" component={CadastroJA}/>
-      <Tab.Screen name="CadastradosJA" component={CadastradosJA}/>
-      <Tab.Screen name="GerarPdf" component={GerarPDFs}/>
-      <Tab.Screen name="Desempenho" component={Desempenho}/>
-
-      
+      <Tab.Screen name="Desempenho" component={Desempenho}/>  
+      <Tab.Screen name="  " component={GerarPDFs}/>
     </Tab.Navigator>
   );
 };
@@ -46,7 +43,7 @@ const AppTabs = () => {
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator
+      <Stack.Navigator initialRouteName="Login"
         screenOptions={{
           headerStyle: {
             backgroundColor: '#0D0157',
@@ -55,11 +52,8 @@ export default function App() {
         }}
       >
         <Stack.Screen
-          name="Home"
+          name=" "
           component={AppTabs}
-          options={({ navigation }) => ({
-            headerLeft: () => <HeaderMenuButton onPress={() => navigation.toggleDrawer()} />,
-          })}
         />
         <Stack.Screen
           name="Cadastro"
@@ -75,6 +69,11 @@ export default function App() {
           name = "Login"
           component={Login}
           options={{title: 'Login'}}
+        />
+        <Stack.Screen
+          name = "CadastradosJA"
+          component={CadastradosJA}
+          options={{title: 'Cadastrados'}}
         />
       </Stack.Navigator>
     </NavigationContainer>
