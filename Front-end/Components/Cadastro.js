@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text, View, StyleSheet, Image, TextInput, TouchableOpacity } from 'react-native';
+import { Text, View, StyleSheet, Image, TextInput, TouchableOpacity, Alert, ScrollView } from 'react-native';
 
 export default function Cadastro() {
   const [nome, setNome] = useState('');
@@ -7,14 +7,52 @@ export default function Cadastro() {
   const [telefone, setTelefone] = useState('');
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
+  const [confirmSenha, setConfirmSenha] = useState('');
+  const [dataNascimento, setDataNascimento] = useState('');
 
-  const handleCadastro = () => {
-    // Lógica de cadastro
+  const handleCadastro = async () => {
+    try {
+      // Verificar se a senha e a confirmação da senha coincidem
+      if (senha !== confirmSenha) {
+        Alert.alert('Erro', 'As senhas não coincidem. Por favor, verifique.');
+        return;
+      }
+
+      const response = await fetch('http://192.168.0.103:3000/api/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          type: 'Admin',
+          name: nome,
+          email: email,
+          birthDate: dataNascimento,
+          cpf: cpf,
+          password: senha,
+          confirmpassword: confirmSenha,
+          // Adicione outros campos conforme necessário
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        console.log('Usuário cadastrado com sucesso:', data);
+        // Adicione lógica adicional conforme necessário (navegação, etc.)
+        // Exemplo: navigation.navigate('PaginaDeSucesso');
+      } else {
+        console.error('Erro ao cadastrar usuário:', data.msg);
+        Alert.alert('Erro', 'Erro ao cadastrar usuário. Verifique os detalhes e tente novamente.');
+      }
+    } catch (error) {
+      console.error('Erro ao realizar a solicitação:', error);
+      Alert.alert('Erro', 'Erro ao conectar ao servidor. Verifique sua conexão e tente novamente.');
+    }
   };
 
   return (
-    <View style={styles.container}>
-      {/* Adicionando a imagem com resizeMode "contain" */}
+    <ScrollView contentContainerStyle={styles.container}>
       <Image style={styles.logo} resizeMode="contain" source={require('../assets/IconLogo.png')} />
 
       <TextInput
@@ -42,16 +80,29 @@ export default function Cadastro() {
         style={styles.input}
       />
       <TextInput
+        value={dataNascimento}
+        placeholder="Cadastre sua data de nascimento (DD/MM/AAAA)"
+        onChangeText={(text) => setDataNascimento(text)}
+        style={styles.input}
+      />
+      <TextInput
         value={senha}
         placeholder="Cadastre sua senha"
         secureTextEntry={true}
         onChangeText={(text) => setSenha(text)}
         style={styles.input}
       />
+      <TextInput
+        value={confirmSenha}
+        placeholder="Confirme sua senha"
+        secureTextEntry={true}
+        onChangeText={(text) => setConfirmSenha(text)}
+        style={styles.input}
+      />
       <TouchableOpacity style={styles.button} onPress={handleCadastro}>
         <Text style={styles.buttonText}>Cadastrar</Text>
       </TouchableOpacity>
-    </View>
+    </ScrollView>
   );
 }
 
