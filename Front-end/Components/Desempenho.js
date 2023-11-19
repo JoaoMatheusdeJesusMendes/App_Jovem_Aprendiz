@@ -9,7 +9,7 @@ const Desempenho = ({ navigation }) => {
     // Função para buscar os dados da API
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://192.168.0.103:3000/api/youngApprentice');
+        const response = await axios.get('http://192.168.0.10:3000/api/youngApprentice');
         setDados(response.data);
       } catch (error) {
         console.error('Erro ao obter dados:', error.message);
@@ -37,11 +37,6 @@ const Desempenho = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <View style={styles.ellipse}></View>
-        <Text style={styles.title}>Desempenho</Text>
-        <View style={styles.ellipse}></View>
-      </View>
       <FlatList
         data={dados}
         keyExtractor={(item) => item._id.toString()}
