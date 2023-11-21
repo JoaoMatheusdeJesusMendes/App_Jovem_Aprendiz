@@ -30,7 +30,6 @@ const CadastradosJA = ({ navigation }) => {
         renderItem={({ item }) => (
           <TouchableOpacity
             style={styles.item}
-            onPress={() => navigation.navigate('DetalhesJA', { jovemAprendiz: item })}
           >
             <View style={styles.itemBorder}>
               <Text style={styles.itemText}>{item.name}</Text>

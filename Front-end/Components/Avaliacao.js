@@ -1,29 +1,39 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
-  TextInput,
   Image,
   TouchableOpacity,
   StyleSheet,
   ScrollView,
   Modal,
+  Alert,
 } from 'react-native';
-import icon from '../assets/IconLogo.png'; // Substitua ".png" pela extensão correta, se necessário
-
+import icon from '../assets/IconLogo.png';
 
 const CustomSelect = ({ options, selectedOption, onSelect }) => {
   const [modalVisible, setModalVisible] = useState(false);
+  const [selectedValue, setSelectedValue] = useState(selectedOption);
 
   const toggleModal = () => {
     setModalVisible(!modalVisible);
   };
 
+  const handleSelect = (value) => {
+    setSelectedValue(value);
+    onSelect(value);
+    toggleModal();
+  };
+
+  useEffect(() => {
+    setSelectedValue(selectedOption);
+  }, [selectedOption]);
+
   return (
     <View>
       <TouchableOpacity onPress={toggleModal} style={styles.selectButton}>
         <View style={styles.selectContainer}>
-          <Text style={styles.textSelect}>{selectedOption}</Text>
+          <Text style={styles.textSelect}>{selectedValue}</Text>
         </View>
       </TouchableOpacity>
       <Modal
@@ -37,10 +47,7 @@ const CustomSelect = ({ options, selectedOption, onSelect }) => {
             <TouchableOpacity
               key={option}
               style={styles.optionItem}
-              onPress={() => {
-                onSelect(option);
-                toggleModal();
-              }}
+              onPress={() => handleSelect(option)}
             >
               <Text style={styles.textOption}>{option}</Text>
             </TouchableOpacity>
@@ -54,70 +61,67 @@ const CustomSelect = ({ options, selectedOption, onSelect }) => {
   );
 };
 
-const Avaliacao = (id) => {
+const AvaliacaoParte1 = () => {
   const [presencaOption, setPresencaOption] = useState('Selecione o tipo');
   const [participacaoOption, setParticipacaoOption] = useState('Selecione o tipo');
   const [relacionamentoOption, setRelacionamentoOption] = useState('Selecione o tipo');
   const [metasOption, setMetasOption] = useState('Selecione o tipo');
   const [habilidadeOption, setHabilidadeOption] = useState('Selecione o tipo');
-  const presenca = ['Suficiente', 'Insuficiente'];
-  const participacao = ['Excelente', 'Suficiente', 'Insuficiente'];
-  const relacionamento = ['Excelente', 'Suficiente', 'Insuficiente'];
-  const metas = ['Excelente', 'Suficiente', 'Insuficiente'];
-  const habilidade = ['Excelente', 'Suficiente', 'Insuficiente'];
+  const [selectedYoungApprentice, setSelectedYoungApprentice] = useState(null);
+  const [youngApprentices, setYoungApprentices] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('http://192.168.0.91:3000/api/youngApprentice');
+        const data = await response.json();
+
+        if (response.ok) {
+          setYoungApprentices(data);
+        } else {
+          console.error('Erro ao obter jovens aprendizes:', data.msg);
+        }
+      } catch (error) {
+        console.error('Erro ao obter jovens aprendizes:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   const handleAvaliacao = async () => {
     try {
-      // Verificar se a senha e a confirmação da senha coincidem
-      if (senha !== confirmSenha) {
-        Alert.alert('Erro', 'As senhas não coincidem. Por favor, verifique.');
+      if (!selectedYoungApprentice) {
+        Alert.alert('Erro', 'Selecione um jovem aprendiz antes de avaliar.');
         return;
       }
 
-      const response = await fetch(`http://192.168.0.10:3000/api/users/${id}`, {
+      const response = await fetch(`http://192.168.0.91:3000/api/youngApprentice/update/${selectedYoungApprentice.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          attendance: presenca,
+          attendance: presencaOption,
           participation: participacaoOption,
           interpersonalRelationships: relacionamentoOption,
           goalAchievement: metasOption,
           technicalSkills: habilidadeOption,
-          // Adicione outros campos conforme necessário
         }),
       });
 
       const data = await response.json();
 
       if (response.ok) {
-        console.log('Usuário cadastrado com sucesso:', data);
-        // Adicione lógica adicional conforme necessário (navegação, etc.)
-        // Exemplo: navigation.navigate('PaginaDeSucesso');
+        console.log('Avaliação realizada com sucesso:', data);
       } else {
-        console.error('Erro ao cadastrar usuário:', data.msg);
-        Alert.alert('Erro', 'Erro ao cadastrar usuário. Verifique os detalhes e tente novamente.');
+        console.error('Erro ao realizar avaliação:', data.msg);
+        Alert.alert('Erro', 'Erro ao realizar avaliação. Verifique os detalhes e tente novamente.');
       }
     } catch (error) {
       console.error('Erro ao realizar a solicitação:', error);
       Alert.alert('Erro', 'Erro ao conectar ao servidor. Verifique sua conexão e tente novamente.');
     }
-  };
-
-  const handleSelectPresenca = (option) => {
-    setPresencaOption(option);
-  };
-  const handleSelectParticipacao = (option) => {
-    setParticipacaoOption(option);
-  };
-  const handleSelectRelacionamento = (option) => {
-    setRelacionamentoOption(option);
-  };
-  const handleSelectMetas = (option) => {
-    setMetasOption(option);
-  };
-  const handleSelectHabilidade = (option) => {
-    setHabilidadeOption(option);
   };
 
   return (
@@ -126,51 +130,63 @@ const Avaliacao = (id) => {
         <Image style={styles.logo} source={icon} />
 
         <View style={styles.formGroup}>
+          <Text style={styles.label}>Selecionar Jovem Aprendiz</Text>
+          <CustomSelect
+            options={youngApprentices.map((apprentice) => apprentice.name)}
+            selectedOption={selectedYoungApprentice ? selectedYoungApprentice.name : 'Selecione o jovem aprendiz'}
+            onSelect={(name) => {
+              const selected = youngApprentices.find((apprentice) => apprentice.name === name);
+              setSelectedYoungApprentice(selected);
+            }}
+          />
+        </View>
+
+        <View style={styles.formGroup}>
           <Text style={styles.label}>Presença</Text>
           <CustomSelect
-            options={presenca}
+            options={['Suficiente', 'Insuficiente']}
             selectedOption={presencaOption}
-            onSelect={handleSelectPresenca}
+            onSelect={setPresencaOption}
           />
         </View>
 
         <View style={styles.formGroup}>
           <Text style={styles.label}>Participação</Text>
           <CustomSelect
-            options={participacao}
+            options={['Excelente', 'Suficiente', 'Insuficiente']}
             selectedOption={participacaoOption}
-            onSelect={handleSelectParticipacao}
+            onSelect={setParticipacaoOption}
           />
         </View>
 
         <View style={styles.formGroup}>
           <Text style={styles.label}>Relacionamento Interpessoal</Text>
           <CustomSelect
-            options={relacionamento}
+            options={['Excelente', 'Suficiente', 'Insuficiente']}
             selectedOption={relacionamentoOption}
-            onSelect={handleSelectRelacionamento}
+            onSelect={setRelacionamentoOption}
           />
         </View>
 
         <View style={styles.formGroup}>
           <Text style={styles.label}>Cumprimento de Metas</Text>
           <CustomSelect
-            options={metas}
+            options={['Excelente', 'Suficiente', 'Insuficiente']}
             selectedOption={metasOption}
-            onSelect={handleSelectMetas}
+            onSelect={setMetasOption}
           />
         </View>
 
         <View style={styles.formGroup}>
           <Text style={styles.label}>Habilidade Técnica</Text>
           <CustomSelect
-            options={habilidade}
+            options={['Excelente', 'Suficiente', 'Insuficiente']}
             selectedOption={habilidadeOption}
-            onSelect={handleSelectHabilidade}
+            onSelect={setHabilidadeOption}
           />
         </View>
 
-        <TouchableOpacity style={styles.button} onPress={() => {handleAvaliacao}}>
+        <TouchableOpacity style={styles.button} onPress={handleAvaliacao}>
           <Text style={styles.buttonText}>Avaliar</Text>
         </TouchableOpacity>
       </View>
@@ -180,11 +196,12 @@ const Avaliacao = (id) => {
 
 const styles = StyleSheet.create({
   container: {
-    flexGrow: 1,
+    flexGrow: 
+    1,
     justifyContent: 'center',
     paddingVertical: 20,
     paddingHorizontal: 16,
-    backgroundColor: '#fff', // Cor de fundo branco
+    backgroundColor: '#fff',
   },
   content: {
     alignItems: 'center',
@@ -216,14 +233,14 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 20,
   },
-  // Estilos para o componente CustomSelect (pode ser ajustado conforme necessário)
+  // Estilos para o componente CustomSelect
   selectButton: {
     backgroundColor: '#fff',
     paddingVertical: 10,
     paddingHorizontal: 16,
     borderRadius: 8,
     borderWidth: 2,
-    borderColor: '#28086B', // Cor da borda
+    borderColor: '#28086B',
   },
   selectContainer: {
     flexDirection: 'row',
@@ -260,8 +277,8 @@ const styles = StyleSheet.create({
   },
   textClose: {
     fontSize: 16,
-    color: 'white', // Adicione a cor desejada
+    color: 'white',
   },
 });
 
-export default Avaliacao;
+export default AvaliacaoParte1;

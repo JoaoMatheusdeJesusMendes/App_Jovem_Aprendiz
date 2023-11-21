@@ -10,14 +10,14 @@ import { Foundation } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 
-
-import Cadastro from './Components/Cadastro'
+import Cadastro from './Components/Cadastro';
 import Avaliacao from './Components/Avaliacao';
 import Login from './Components/Login';
 import CadastroJA from './Components/CadastroJA';
 import CadastradosJA from './Components/CadastradosJA';
-import GerarPDFs from './Components/GerarPdf'
+import GerarPDFs from './Components/GerarPdf';
 import Desempenho from './Components/Desempenho';
+import DetalhesDesempenho from './Components/DetalhesDesempenho'; // Importe o novo componente
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -32,54 +32,55 @@ const HeaderMenuButton = ({ onPress }) => {
 
 const AppTabs = () => {
   return (
-    <Tab.Navigator 
-    initialRouteName="Cadastrados">
-      <Tab.Screen 
-      name="Cadastro" 
-      component={CadastroJA}
-      options={{
-        tabBarLabel:"Cadastro",
-        tabBarIcon: () => (
-          <Foundation name="clipboard-pencil" size={24} color="blue" />
-        )
+    <Tab.Navigator initialRouteName="Cadastrados">
+      <Tab.Screen
+        name="Cadastro"
+        component={CadastroJA}
+        options={{
+          tabBarLabel: 'Cadastro',
+          tabBarIcon: () => (
+            <Foundation name="clipboard-pencil" size={24} color="blue" />
+          ),
         }}
       />
-      <Tab.Screen 
-      name="Cadastrados" 
-      component={CadastradosJA}
-      options={{
-        tabBarLabel:"Cadastrados",
-        tabBarIcon: () => (
-          <FontAwesome5 name="clipboard-list" size={24} color="blue" />
-        )
-        }}/>
-      <Tab.Screen 
-      name="Avaliacao" 
-      component={Avaliacao}
-      options={{
-        tabBarLabel:"Avaliação",
-        tabBarIcon: () => (
-        <AntDesign name="checksquare" size={24} color="blue" />
-        )
-      }}/>
-      <Tab.Screen 
-      name="Desempenho" 
-      component={Desempenho}
-      options={{
-        tabBarLabel:"Desempenho",
-        tabBarIcon: () => (
-        <Foundation name="results-demographics" size={24} color="blue"/>
-        )
-      }}/>
-      <Tab.Screen 
-      name="  " 
-      component={GerarPDFs}
-      options={{
-        tabBarLabel:"Gerar PDF",
-        tabBarIcon: () => (
-        <AntDesign name="pdffile1" size={24} color="blue"/>
-        )
-        }}/>
+      <Tab.Screen
+        name="Cadastrados"
+        component={CadastradosJA}
+        options={{
+          tabBarLabel: 'Cadastrados',
+          tabBarIcon: () => (
+            <FontAwesome5 name="clipboard-list" size={24} color="blue" />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Avaliacao"
+        component={Avaliacao}
+        options={{
+          tabBarLabel: 'Avaliação',
+          tabBarIcon: () => (
+            <AntDesign name="checksquare" size={24} color="blue" />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Desempenho"
+        component={Desempenho}
+        options={{
+          tabBarLabel: 'Desempenho',
+          tabBarIcon: () => (
+            <Foundation name="results-demographics" size={24} color="blue" />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="GerarPDFs"
+        component={GerarPDFs}
+        options={{
+          tabBarLabel: 'Gerar PDF',
+          tabBarIcon: () => <AntDesign name="pdffile1" size={24} color="blue" />,
+        }}
+      />
     </Tab.Navigator>
   );
 };
@@ -87,7 +88,8 @@ const AppTabs = () => {
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Login"
+      <Stack.Navigator
+        initialRouteName="Login"
         screenOptions={{
           headerStyle: {
             backgroundColor: '#0D0157',
@@ -98,6 +100,9 @@ export default function App() {
         <Stack.Screen
           name=" "
           component={AppTabs}
+          options={({ navigation }) => ({
+            headerLeft: () => <HeaderMenuButton onPress={() => navigation.toggleDrawer()} />,
+          })}
         />
         <Stack.Screen
           name="Cadastro"
@@ -109,15 +114,16 @@ export default function App() {
           component={Avaliacao}
           options={{ title: 'Avaliação' }}
         />
+        <Stack.Screen name="Login" component={Login} options={{ title: 'Login' }} />
         <Stack.Screen
-          name = "Login"
-          component={Login}
-          options={{title: 'Login'}}
+          name="CadastradosJA"
+          component={CadastradosJA}
+          options={{ title: 'Cadastrados' }}
         />
         <Stack.Screen
-          name = "CadastradosJA"
-          component={CadastradosJA}
-          options={{title: 'Cadastrados'}}
+          name="DetalhesDesempenho"
+          component={DetalhesDesempenho}
+          options={{ title: 'Detalhes do Desempenho' }}
         />
       </Stack.Navigator>
     </NavigationContainer>
@@ -129,5 +135,3 @@ const styles = StyleSheet.create({
     marginLeft: 16,
   },
 });
-
-// ... (rest of your code)
