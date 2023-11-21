@@ -75,47 +75,49 @@ const AvaliacaoParte1 = () => {
       try {
         const response = await fetch('http://192.168.0.91:3000/api/youngApprentice');
         const data = await response.json();
-
+  
         if (response.ok) {
+          console.log('Estrutura de youngApprentices:', data[0]);
           setYoungApprentices(data);
         } else {
-          console.error('Erro ao obter jovens aprendizes:', data.msg);
+          console.error('Erro ao realizar avaliação:', JSON.stringify(data));
         }
       } catch (error) {
-        console.error('Erro ao obter jovens aprendizes:', error);
+        console.error('Erro ao realizar a solicitação:', JSON.stringify(error));
       }
     };
-
+  
     fetchData();
   }, []);
+  
 
   const handleAvaliacao = async () => {
     try {
-      if (!selectedYoungApprentice) {
+      if (!selectedYoungApprentice || !selectedYoungApprentice._id) {
         Alert.alert('Erro', 'Selecione um jovem aprendiz antes de avaliar.');
         return;
       }
-
-      const response = await fetch(`http://192.168.0.91:3000/api/youngApprentice/update/${selectedYoungApprentice.id}`, {
+  
+      const response = await fetch(`http://192.168.0.91:3000/api/youngApprentice/update/${selectedYoungApprentice._id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          attendance: presencaOption,
-          participation: participacaoOption,
-          interpersonalRelationships: relacionamentoOption,
-          goalAchievement: metasOption,
-          technicalSkills: habilidadeOption,
+          attendance: presencaOption.toString(),
+          participation: participacaoOption.toString(),
+          interpersonalRelationships: relacionamentoOption.toString(),
+          goalAchievement: metasOption.toString(),
+          technicalSkills: habilidadeOption.toString(),
         }),
       });
-
+  
       const data = await response.json();
-
+  
       if (response.ok) {
         console.log('Avaliação realizada com sucesso:', data);
       } else {
-        console.error('Erro ao realizar avaliação:', data.msg);
+        console.error('Erro ao realizar avaliação:', data);
         Alert.alert('Erro', 'Erro ao realizar avaliação. Verifique os detalhes e tente novamente.');
       }
     } catch (error) {
@@ -123,7 +125,7 @@ const AvaliacaoParte1 = () => {
       Alert.alert('Erro', 'Erro ao conectar ao servidor. Verifique sua conexão e tente novamente.');
     }
   };
-
+  
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.content}>
@@ -132,13 +134,14 @@ const AvaliacaoParte1 = () => {
         <View style={styles.formGroup}>
           <Text style={styles.label}>Selecionar Jovem Aprendiz</Text>
           <CustomSelect
-            options={youngApprentices.map((apprentice) => apprentice.name)}
-            selectedOption={selectedYoungApprentice ? selectedYoungApprentice.name : 'Selecione o jovem aprendiz'}
-            onSelect={(name) => {
-              const selected = youngApprentices.find((apprentice) => apprentice.name === name);
-              setSelectedYoungApprentice(selected);
-            }}
-          />
+  options={youngApprentices.map((apprentice) => apprentice.name)}
+  selectedOption={selectedYoungApprentice ? selectedYoungApprentice.name : 'Selecione o jovem aprendiz'}
+  onSelect={(name) => {
+    const selected = youngApprentices.find((apprentice) => apprentice.name === name);
+    setSelectedYoungApprentice(selected);
+  }}
+/>
+
         </View>
 
         <View style={styles.formGroup}>
