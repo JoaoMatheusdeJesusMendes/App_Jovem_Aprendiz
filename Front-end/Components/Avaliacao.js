@@ -54,7 +54,7 @@ const CustomSelect = ({ options, selectedOption, onSelect }) => {
   );
 };
 
-const Avaliacao = () => {
+const Avaliacao = (id) => {
   const [presencaOption, setPresencaOption] = useState('Selecione o tipo');
   const [participacaoOption, setParticipacaoOption] = useState('Selecione o tipo');
   const [relacionamentoOption, setRelacionamentoOption] = useState('Selecione o tipo');
@@ -65,6 +65,44 @@ const Avaliacao = () => {
   const relacionamento = ['Excelente', 'Suficiente', 'Insuficiente'];
   const metas = ['Excelente', 'Suficiente', 'Insuficiente'];
   const habilidade = ['Excelente', 'Suficiente', 'Insuficiente'];
+  const handleAvaliacao = async () => {
+    try {
+      // Verificar se a senha e a confirmação da senha coincidem
+      if (senha !== confirmSenha) {
+        Alert.alert('Erro', 'As senhas não coincidem. Por favor, verifique.');
+        return;
+      }
+
+      const response = await fetch(`http://192.168.0.10:3000/api/users/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          attendance: presenca,
+          participation: participacaoOption,
+          interpersonalRelationships: relacionamentoOption,
+          goalAchievement: metasOption,
+          technicalSkills: habilidadeOption,
+          // Adicione outros campos conforme necessário
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        console.log('Usuário cadastrado com sucesso:', data);
+        // Adicione lógica adicional conforme necessário (navegação, etc.)
+        // Exemplo: navigation.navigate('PaginaDeSucesso');
+      } else {
+        console.error('Erro ao cadastrar usuário:', data.msg);
+        Alert.alert('Erro', 'Erro ao cadastrar usuário. Verifique os detalhes e tente novamente.');
+      }
+    } catch (error) {
+      console.error('Erro ao realizar a solicitação:', error);
+      Alert.alert('Erro', 'Erro ao conectar ao servidor. Verifique sua conexão e tente novamente.');
+    }
+  };
 
   const handleSelectPresenca = (option) => {
     setPresencaOption(option);
@@ -132,7 +170,7 @@ const Avaliacao = () => {
           />
         </View>
 
-        <TouchableOpacity style={styles.button} onPress={() => {}}>
+        <TouchableOpacity style={styles.button} onPress={() => {handleAvaliacao}}>
           <Text style={styles.buttonText}>Avaliar</Text>
         </TouchableOpacity>
       </View>

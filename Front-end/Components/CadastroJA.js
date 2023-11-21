@@ -81,7 +81,7 @@ export default function CadastroJA() {
 
   const handleCadastroJA = async () => {
     try {
-      const response = await axios.post('http://192.168.0.10:3000/api/youngApprentice/register', {
+      const response = await axios.post('http://192.168.0.91:3000/api/youngApprentice/register', {
         class: turma,
         name: nome,
         role: funcao,

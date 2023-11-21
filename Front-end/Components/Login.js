@@ -7,7 +7,7 @@ export default function Login({ navigation }) {
 
   const handleLogin = async () => {
     try {
-      const response = await fetch('http://192.168.0.10:3000/api/auth/login', {
+      const response = await fetch('http://192.168.0.91:3000/api/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

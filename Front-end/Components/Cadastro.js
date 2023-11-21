@@ -18,7 +18,7 @@ export default function Cadastro() {
         return;
       }
 
-      const response = await fetch('http://192.168.0.10:3000/api/auth/register', {
+      const response = await fetch('http://192.168.0.91:3000/api/auth/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
